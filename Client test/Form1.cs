@@ -11,6 +11,8 @@ namespace Client_test
         private Thread receiveThread;
         int mynum;
         bool isconnected;
+        string nickname;
+        static string str;
         public Form1()
         {
             InitializeComponent();
@@ -35,6 +37,7 @@ namespace Client_test
                     button2.Enabled = true;
                     button3.Enabled = true;
                     button1.Enabled = false;
+                    textBox4.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -45,7 +48,7 @@ namespace Client_test
         }
         private void ReceiveMessages()
         {
-            byte[] buffer = new byte[256];
+            byte[] buffer = new byte[102400];
 
             while (true)
             {
@@ -63,7 +66,11 @@ namespace Client_test
                     }
                     else if (message[0] == "1")
                     {
+                        
                         client.Close();
+                        if (message[1] != "")
+                            MessageBox.Show(message[1]);
+
                         Invoke(new Action(() =>
                         {
                             listBox1.Items.Add("Disconnected from server...");
@@ -71,6 +78,7 @@ namespace Client_test
                             button3.Enabled = false;
                             button1.Enabled = true;
                             isconnected = false;
+                            textBox4.Enabled = true;
                         }));
 
                         break;
@@ -78,6 +86,17 @@ namespace Client_test
                     else if (message[0] == "2")
                     {
                         mynum = int.Parse(message[1]);
+                        Invoke(new Action(() => str = textBox4.Text));
+                        if (str == "")
+                        {
+                            nickname = "Client" + mynum.ToString();
+                            Invoke(new Action(() => textBox4.Text = nickname));
+                        }
+                        else
+                        {
+                            nickname = str;
+                        }
+                        stream.Write(Encoding.UTF8.GetBytes("3⧫" + nickname));
                     }
                 }
                 catch (Exception ex)
@@ -99,6 +118,7 @@ namespace Client_test
             button3.Enabled = false;
             button1.Enabled = true;
             isconnected = false;
+            textBox4.Enabled = true;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -113,13 +133,14 @@ namespace Client_test
                 button3.Enabled = false;
                 button1.Enabled = true;
                 isconnected = false;
+                textBox4.Enabled = true;
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"Client{mynum}:" + textBox1.Text));
-            listBox1.Items.Add($"Client{mynum}:" + textBox1.Text);
+            stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"{nickname}:" + textBox1.Text));
+            listBox1.Items.Add($"{nickname}:" + textBox1.Text);
             textBox1.Text = "";
         }
 
@@ -127,8 +148,8 @@ namespace Client_test
         {
             if (e.KeyCode == Keys.Enter && isconnected)
             {
-                stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"Client{mynum}:" + textBox1.Text));
-                listBox1.Items.Add($"Client{mynum}:" + textBox1.Text);
+                stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"{nickname}:" + textBox1.Text));
+                listBox1.Items.Add($"{nickname}:" + textBox1.Text);
                 textBox1.Text = "";
             }
         }

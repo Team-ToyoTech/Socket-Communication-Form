@@ -7,7 +7,7 @@ namespace Server_test
     public partial class Form1 : Form
     {
         static TcpListener server;
-        static List<TcpClient> clients;
+        static List<Client> clients;
         Thread T;
         List<Thread> Tt;
         static bool isServerRun;
@@ -47,7 +47,8 @@ namespace Server_test
         입력 코드
         0:채팅
         1:연결종료
-        2:번호 지정
+        2:번호 지정(서버=>클라이언트)
+        3:닉네임 전송(클라이언트=>서버)
          */
         //Split 문자 : ⧫
 
@@ -70,7 +71,7 @@ namespace Server_test
             server = new TcpListener(IPAddress.Any, port);
             server.Start();
             isServerRun = true;
-            clients = new List<TcpClient>();
+            clients = new List<Client>();
             int count = 0;
             byte[] buffer;
 
@@ -78,18 +79,12 @@ namespace Server_test
             {
                 try
                 {
-                    clients.Add(server.AcceptTcpClient());
+                    clients.Add(new Client(server.AcceptTcpClient(), count));
                     count++;
-                    Invoke(new Action(() => listBox1.Items.Add($"Client{count} joined")));
-                    buffer = Encoding.UTF8.GetBytes($"0⧫Client{count} joined");
-                    foreach (TcpClient client in clients)
-                    {
-                        NetworkStream stream = client.GetStream();
-                        stream.Write(buffer, 0, buffer.Length);
-                    }
-                    Tt.Add(new Thread(() => ClientCheck(clients[clients.Count - 1], count)));
+                    
+                    Tt.Add(new Thread(() => ClientCheck(clients.Count - 1, count)));
                     Delay(10);
-                    clients[clients.Count - 1].GetStream().Write(Encoding.UTF8.GetBytes($"2⧫{count}"));
+                    clients[clients.Count - 1].client.GetStream().Write(Encoding.UTF8.GetBytes($"2⧫{count}"));
                     Tt[Tt.Count - 1].IsBackground = true;
                     Tt[Tt.Count - 1].Start();
                 }
@@ -100,11 +95,12 @@ namespace Server_test
             }
         }
 
-        void ClientCheck(TcpClient client, int clientn)
+        void ClientCheck(int clientrealnumber, int clientn)
         {
-            NetworkStream stream = client.GetStream();
+            Client client = clients[clientrealnumber];
+            NetworkStream stream = clients[clientrealnumber].client.GetStream();
             byte[] buffer = new byte[102400];
-
+            bool error = false;
             while (isServerRun)
             {
                 try
@@ -122,37 +118,85 @@ namespace Server_test
                         {
                             if (c != client)
                             {
-                                NetworkStream cStream = c.GetStream();
-                                byte[] responseBytes = buffer;
+                                NetworkStream cStream = c.client.GetStream();
+                                byte[] responseBytes = Encoding.UTF8.GetBytes("0⧫" + message[1]);
                                 cStream.Write(responseBytes, 0, responseBytes.Length);
                             }
                         }
                     }
                     else if (message[0] == "1")
                     {
-                        client.Close();
-                        clients.Remove(client);
-                        Invoke(new Action(() => listBox1.Items.Add($"Client{clientn} disconnected...")));
+                        
+                        
+                        Invoke(new Action(() => listBox1.Items.Add($"{client.nickname} disconnected...")));
+                        foreach (var c in clients)
+                        {
+                            NetworkStream cStream = c.client.GetStream();
+                            byte[] responseBytes = buffer;
+                            cStream.Write(Encoding.UTF8.GetBytes($"{client.nickname} disconnected..."));
+                        }
                         break;
+                    }
+                    else if (message[0] == "3")
+                    {
+                        foreach (var c in clients)
+                        {
+                            if(c.nickname == message[1])
+                            {
+                                string nickname = "";
+                                foreach (var c2 in clients)
+                                {
+                                    if(c2 != client) nickname += c2.nickname + ", ";
+                                }
+                                client.client.GetStream().Write(Encoding.UTF8.GetBytes("1⧫닉네임은 다음과 같을 수 없습니다:"+ nickname));
+                                int b = 0;
+                                error = true;
+                                int a = 10 / b;
+                            }
+                        }
+                        clients.Remove(client);
+                        client.nickname = message[1];
+                        clients.Add(client);
+                        Invoke(new Action(() => listBox1.Items.Add($"{message[1]} joined")));
+                        buffer = Encoding.UTF8.GetBytes($"0⧫{client.nickname} joined");
+                        foreach (var c in clients)
+                        {
+                            NetworkStream s = c.client.GetStream();
+                            s.Write(buffer, 0, buffer.Length);
+                        }
                     }
                 }
                 catch (Exception e)
                 {
-                    clients.Remove(client);
-                    if (!isClosing) Invoke(new Action(() => listBox1.Items.Add($"Client{clientn} disconnected...")));
+
+                    
                     break;
                 }
             }
+            //if (!isClosing && !error)
+            //{
+            //    foreach (var c in clients)
+            //    {
+            //        if (c != clients[clientrealnumber])
+            //        {
+            //            NetworkStream cStream = c.client.GetStream();
+            //            byte[] responseBytes = buffer;
+            //            cStream.Write(Encoding.UTF8.GetBytes($"{clients[clientrealnumber].nickname} disconnected..."));
+            //        }
+            //    }
+            //    Invoke(new Action(() => listBox1.Items.Add($"{clients[clientrealnumber].nickname} disconnected...")));
+            //}
+            client.client.Close();
+            if (!isClosing) clients.Remove(client);
         }
-        //TODO: UI작업이랑 비정상 종료에 대한 처리 하기
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             isClosing = true;
             foreach (var c in clients)
             {
-                NetworkStream n = c.GetStream();
+                NetworkStream n = c.client.GetStream();
                 n.Write(Encoding.UTF8.GetBytes("1⧫"));
-                c.Close();
+                c.client.Close();
             }
         }
 
@@ -160,8 +204,8 @@ namespace Server_test
         {
             foreach (var c in clients)
             {
-                c.GetStream().Write(Encoding.UTF8.GetBytes("1⧫"));
-                c.Close();
+                c.client.GetStream().Write(Encoding.UTF8.GetBytes("1⧫"));
+                c.client.Close();
             }
             button2.Enabled = false;
             button1.Enabled = true;
@@ -175,7 +219,7 @@ namespace Server_test
         {
             foreach (var c in clients)
             {
-                c.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text));
+                c.client.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text));
             }
             listBox1.Items.Add("Server:" + textBox2.Text);
             textBox2.Text = "";
@@ -209,11 +253,27 @@ namespace Server_test
             {
                 foreach (var c in clients)
                 {
-                    c.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text));
+                    c.client.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text));
                 }
                 listBox1.Items.Add("Server:" + textBox2.Text);
                 textBox2.Text = "";
             }
+        }
+    }
+    class Client
+    {
+        public TcpClient client;
+        public string nickname;
+
+        public Client(TcpClient client, int n)
+        {
+            this.client = client;
+            nickname = "Client" + n.ToString();
+        }
+        public Client(TcpClient client, string str)
+        {
+            this.client = client;
+            nickname = str;
         }
     }
 }

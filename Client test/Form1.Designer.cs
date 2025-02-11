@@ -37,6 +37,8 @@
             label2 = new Label();
             textBox3 = new TextBox();
             button3 = new Button();
+            label3 = new Label();
+            textBox4 = new TextBox();
             SuspendLayout();
             // 
             // listBox1
@@ -49,7 +51,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(439, 166);
+            button1.Location = new Point(439, 243);
             button1.Name = "button1";
             button1.Size = new Size(200, 46);
             button1.TabIndex = 1;
@@ -59,7 +61,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(439, 218);
+            button2.Location = new Point(439, 295);
             button2.Name = "button2";
             button2.Size = new Size(200, 46);
             button2.TabIndex = 2;
@@ -116,11 +118,29 @@
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(439, 163);
+            label3.Name = "label3";
+            label3.Size = new Size(86, 32);
+            label3.TabIndex = 9;
+            label3.Text = "닉네임";
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(439, 198);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(200, 39);
+            textBox4.TabIndex = 10;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(666, 787);
+            Controls.Add(textBox4);
+            Controls.Add(label3);
             Controls.Add(button3);
             Controls.Add(textBox3);
             Controls.Add(label2);
@@ -150,5 +170,7 @@
         private Label label2;
         private TextBox textBox3;
         private Button button3;
+        private Label label3;
+        private TextBox textBox4;
     }
 }
