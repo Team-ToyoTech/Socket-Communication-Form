@@ -36,6 +36,9 @@
             textBox2 = new TextBox();
             button3 = new Button();
             label2 = new Label();
+            groupBox1 = new GroupBox();
+            listBox2 = new ListBox();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -56,7 +59,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(588, 89);
+            button1.Location = new Point(794, 40);
             button1.Name = "button1";
             button1.Size = new Size(200, 46);
             button1.TabIndex = 2;
@@ -66,7 +69,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(588, 141);
+            button2.Location = new Point(794, 92);
             button2.Name = "button2";
             button2.Size = new Size(200, 46);
             button2.TabIndex = 3;
@@ -84,7 +87,7 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(12, 630);
+            textBox2.Location = new Point(12, 634);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(414, 39);
             textBox2.TabIndex = 5;
@@ -102,17 +105,36 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(588, 190);
+            label2.Location = new Point(588, 99);
             label2.Name = "label2";
-            label2.Size = new Size(86, 32);
+            label2.Size = new Size(141, 128);
             label2.TabIndex = 7;
-            label2.Text = "IP주소:";
+            label2.Text = "로컬 IP주소:\r\n0.0.0.0\r\n외부 IP주소:\r\n0.0.0.0";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(listBox2);
+            groupBox1.Location = new Point(594, 230);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(400, 446);
+            groupBox1.TabIndex = 8;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "접속자";
+            // 
+            // listBox2
+            // 
+            listBox2.FormattingEnabled = true;
+            listBox2.Location = new Point(6, 38);
+            listBox2.Name = "listBox2";
+            listBox2.Size = new Size(388, 388);
+            listBox2.TabIndex = 0;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 711);
+            ClientSize = new Size(1006, 711);
+            Controls.Add(groupBox1);
             Controls.Add(label2);
             Controls.Add(button3);
             Controls.Add(textBox2);
@@ -126,6 +148,7 @@
             Text = "Form1";
             FormClosing += Form1_FormClosing;
             KeyDown += Form1_KeyDown;
+            groupBox1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -140,5 +163,7 @@
         private TextBox textBox2;
         private Button button3;
         private Label label2;
+        private GroupBox groupBox1;
+        private ListBox listBox2;
     }
 }
