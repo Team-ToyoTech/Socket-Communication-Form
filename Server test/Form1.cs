@@ -175,7 +175,7 @@ namespace Server_test
         {
             foreach (var c in clients)
             {
-                c.GetStream().Write(Encoding.UTF8.GetBytes("0⧫"+"Server:" + textBox2.Text));
+                c.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text));
             }
             listBox1.Items.Add("Server:" + textBox2.Text);
             textBox2.Text = "";
@@ -200,6 +200,19 @@ namespace Server_test
             {
                 string response = client.DownloadString("https://api.ipify.org");
                 return response;
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && isServerRun)
+            {
+                foreach (var c in clients)
+                {
+                    c.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text));
+                }
+                listBox1.Items.Add("Server:" + textBox2.Text);
+                textBox2.Text = "";
             }
         }
     }

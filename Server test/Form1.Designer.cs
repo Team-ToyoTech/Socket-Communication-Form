@@ -121,9 +121,11 @@
             Controls.Add(button1);
             Controls.Add(textBox1);
             Controls.Add(label1);
+            KeyPreview = true;
             Name = "Form1";
             Text = "Form1";
             FormClosing += Form1_FormClosing;
+            KeyDown += Form1_KeyDown;
             ResumeLayout(false);
             PerformLayout();
         }

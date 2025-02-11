@@ -41,7 +41,7 @@ namespace Client_test
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
         private void ReceiveMessages()
         {
@@ -64,14 +64,15 @@ namespace Client_test
                     else if (message[0] == "1")
                     {
                         client.Close();
-                        Invoke(new Action(() => { 
+                        Invoke(new Action(() =>
+                        {
                             listBox1.Items.Add("Disconnected from server...");
                             button2.Enabled = false;
                             button3.Enabled = false;
                             button1.Enabled = true;
                             isconnected = false;
                         }));
-                        
+
                         break;
                     }
                     else if (message[0] == "2")
@@ -83,7 +84,7 @@ namespace Client_test
                 {
                     break;
                 }
-                
+
 
             }
         }
@@ -120,6 +121,16 @@ namespace Client_test
             stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"Client{mynum}:" + textBox1.Text));
             listBox1.Items.Add($"Client{mynum}:" + textBox1.Text);
             textBox1.Text = "";
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && isconnected)
+            {
+                stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"Client{mynum}:" + textBox1.Text));
+                listBox1.Items.Add($"Client{mynum}:" + textBox1.Text);
+                textBox1.Text = "";
+            }
         }
     }
 }

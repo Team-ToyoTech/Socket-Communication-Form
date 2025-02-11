@@ -130,9 +130,11 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(listBox1);
+            KeyPreview = true;
             Name = "Form1";
             Text = "Form1";
             FormClosing += Form1_FormClosing;
+            KeyDown += Form1_KeyDown;
             ResumeLayout(false);
             PerformLayout();
         }
