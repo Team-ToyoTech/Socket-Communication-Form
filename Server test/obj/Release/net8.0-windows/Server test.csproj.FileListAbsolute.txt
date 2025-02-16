@@ -1,0 +1,33 @@
+C:\Users\endiy\source\repos\Server test\Server test\bin\Release\net8.0-windows\Server test.exe
+C:\Users\endiy\source\repos\Server test\Server test\bin\Release\net8.0-windows\Server test.deps.json
+C:\Users\endiy\source\repos\Server test\Server test\bin\Release\net8.0-windows\Server test.runtimeconfig.json
+C:\Users\endiy\source\repos\Server test\Server test\bin\Release\net8.0-windows\Server test.dll
+C:\Users\endiy\source\repos\Server test\Server test\bin\Release\net8.0-windows\Server test.pdb
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server_test.Form1.resources
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server test.csproj.GenerateResource.cache
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server test.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server test.AssemblyInfoInputs.cache
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server test.AssemblyInfo.cs
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server test.csproj.CoreCompileInputs.cache
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server test.dll
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\refint\Server test.dll
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server test.pdb
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\Server test.genruntimeconfig.cache
+C:\Users\endiy\source\repos\Server test\Server test\obj\Release\net8.0-windows\ref\Server test.dll
+C:\Users\이동하\source\repos\chat-server1\Server test\bin\Release\net8.0-windows\Server test.exe
+C:\Users\이동하\source\repos\chat-server1\Server test\bin\Release\net8.0-windows\Server test.deps.json
+C:\Users\이동하\source\repos\chat-server1\Server test\bin\Release\net8.0-windows\Server test.runtimeconfig.json
+C:\Users\이동하\source\repos\chat-server1\Server test\bin\Release\net8.0-windows\Server test.dll
+C:\Users\이동하\source\repos\chat-server1\Server test\bin\Release\net8.0-windows\Server test.pdb
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server_test.Form1.resources
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.csproj.GenerateResource.cache
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.AssemblyInfoInputs.cache
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.AssemblyInfo.cs
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.csproj.CoreCompileInputs.cache
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.sourcelink.json
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.dll
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\refint\Server test.dll
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.pdb
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\Server test.genruntimeconfig.cache
+C:\Users\이동하\source\repos\chat-server1\Server test\obj\Release\net8.0-windows\ref\Server test.dll
