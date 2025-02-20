@@ -183,6 +183,8 @@ namespace Server_test
                                     if(c2 != client) nickname += c2.nickname + ", ";
                                 }
                                 client.client.GetStream().Write(Encoding.UTF8.GetBytes("1⧫닉네임은 다음과 같을 수 없습니다:"+ nickname+ '◊'));
+                                clients.Remove(client);
+                                Invoke(new Action(() => listBox2.Items.Remove(client.nickname)));
                                 int b = 0;
                                 error = true;
                                 int a = 10 / b;
