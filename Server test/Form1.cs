@@ -273,13 +273,27 @@ namespace Server_test
 
         private void button3_Click(object sender, EventArgs e)
         {
-            foreach (var c in clients)
+            if (!textBox1.Text.Contains('⧫') && !textBox1.Text.Contains('◊'))
             {
-                c.client.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text + '◊'));
+                if (textBox1.Text != "")
+                {
+                    foreach (var c in clients)
+                    {
+                        c.client.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text + '◊'));
+                    }
+                    listBox1.Items.Add("Server:" + textBox2.Text);
+                    textBox2.Text = "";
+                    listBox1.TopIndex = listBox1.Items.Count - 1;
+                }
+                else
+                {
+                    MessageBox.Show("문자는 공백이면 안됩니다.");
+                }
             }
-            listBox1.Items.Add("Server:" + textBox2.Text);
-            textBox2.Text = "";
-            listBox1.TopIndex = listBox1.Items.Count - 1;
+            else
+            {
+                MessageBox.Show("채팅에 다음 문자는 포함되면 안됩니다: ⧫, ◊");
+            }
         }
 
         static string GetLocalIPAddress()
@@ -318,6 +332,7 @@ namespace Server_test
                         }
                         listBox1.Items.Add("Server:" + textBox2.Text);
                         textBox2.Text = "";
+                        listBox1.TopIndex = listBox1.Items.Count - 1;
                     }
                     else
                     {
