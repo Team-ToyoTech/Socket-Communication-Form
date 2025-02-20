@@ -49,23 +49,35 @@ namespace Client_test
         private void ReceiveMessages()
         {
             byte[] buffer = new byte[102400];
+            string msg = "";
 
             while (true)
             {
                 try
                 {
-                    string msg = "";
+
+                    buffer = new byte[102400];
+                    if (msg != "")
+                    {
+                        buffer = Encoding.UTF8.GetBytes(msg);
+                    }
                     while (true)
                     {
-                        int bytesRead = stream.Read(buffer, 0, buffer.Length);
-
+                        byte[] data = new byte[256];
+                        int bytesRead = stream.Read(data, 0, data.Length);
                         if (bytesRead == 0)
                             break;
-                        msg += Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        data = data.Where(x => x != 0).ToArray();
+                        if (buffer.Length == 102400) buffer = data;
+                        else buffer = buffer.Concat(data).ToArray();
+
+                        msg = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
                         if (msg.Contains('◊')) break;
                     }
-                    msg = msg.Replace("◊", "");
-                    string[] message = msg.Split('⧫');
+                    if (Encoding.UTF8.GetString(buffer, 0, buffer.Length).Split("◊").Length == 1)
+                        msg = "";
+                    else msg = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Split("◊")[1];
+                    string[] message = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Split("◊")[0].Split('⧫');
 
                     if (message[0] == "0")
                     {
@@ -166,15 +178,24 @@ namespace Client_test
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (!textBox1.Text.Contains('⧫'))
+            if (!textBox1.Text.Contains('⧫') && !textBox1.Text.Contains('◊'))
             {
-                stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"{nickname}:" + textBox1.Text + '◊'));
-                listBox1.Items.Add($"{nickname}:" + textBox1.Text);
-                textBox1.Text = "";
+                if (textBox1.Text != "")
+                {
+                    stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"{nickname}:" + textBox1.Text + '◊'));
+                    stream.Flush();
+                    listBox1.Items.Add($"{nickname}:" + textBox1.Text);
+                    textBox1.Text = "";
+                    listBox1.TopIndex = listBox1.Items.Count - 1;
+                }
+                else
+                {
+                    MessageBox.Show("문자는 공백이면 안됩니다.");
+                }
             }
             else
             {
-                MessageBox.Show("채팅에 다음 문자는 포함되면 안됩니다: ⧫");
+                MessageBox.Show("채팅에 다음 문자는 포함되면 안됩니다: ⧫, ◊");
             }
         }
 
@@ -182,16 +203,24 @@ namespace Client_test
         {
             if (e.KeyCode == Keys.Enter && isconnected)
             {
-                if (!textBox1.Text.Contains('⧫'))
+                if (!textBox1.Text.Contains('⧫') && !textBox1.Text.Contains('◊'))
                 {
-                    stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"{nickname}:" + textBox1.Text + '◊'));
-                    stream.Flush();
-                    listBox1.Items.Add($"{nickname}:" + textBox1.Text);
-                    textBox1.Text = "";
+                    if (textBox1.Text != "")
+                    {
+                        stream.Write(Encoding.UTF8.GetBytes("0⧫" + $"{nickname}:" + textBox1.Text + '◊'));
+                        stream.Flush();
+                        listBox1.Items.Add($"{nickname}:" + textBox1.Text);
+                        textBox1.Text = "";
+                        listBox1.TopIndex = listBox1.Items.Count - 1;
+                    }
+                    else
+                    {
+                        MessageBox.Show("문자는 공백이면 안됩니다.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("다음 문자는 포함되어서는 안됩니다: ⧫");
+                    MessageBox.Show("다음 문자는 포함되어서는 안됩니다: ⧫, ◊");
                 }
             }
         }

@@ -88,7 +88,7 @@ namespace Server_test
                     count++;
                     
                     Tt.Add(new Thread(() => ClientCheck(clients.Count - 1, count)));
-                    Delay(10);
+                    Delay(100);
                     clients[clients.Count - 1].client.GetStream().Write(Encoding.UTF8.GetBytes($"2⧫{count}◊"));
                     Tt[Tt.Count - 1].IsBackground = true;
                     Tt[Tt.Count - 1].Start();
@@ -107,27 +107,34 @@ namespace Server_test
             byte[] buffer = new byte[102400];
             buffer[102399] = 255;
             bool error = false;
+            string msg = "";
             while (isServerRun)
             {
                 try
                 {
-                    string msg = "";
-                    
+
+                    buffer = new byte[102400];
+                    if(msg != "")
+                    {
+                        buffer = Encoding.UTF8.GetBytes(msg);
+                    }
                     while (true)
                     {
-                        buffer = new byte[102400];
                         byte[] data = new byte[256];
                         int bytesRead = stream.Read(data, 0, data.Length);
+                        if (bytesRead == 0)
+                            break;
                         data = data.Where(x => x != 0).ToArray();
                         if (buffer.Length == 102400) buffer = data;
                         else buffer = buffer.Concat(data).ToArray();
-                        if (bytesRead == 0)
-                            break;
+
                         msg = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
                         if (msg.Contains('◊')) break;
                     }
-                    msg = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Replace("◊", "");
-                    string[] message = msg.Split('⧫');
+                    if (Encoding.UTF8.GetString(buffer, 0, buffer.Length).Split("◊").Length == 1)
+                        msg = "";
+                    else msg = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Split("◊")[1];
+                    string[] message = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Split("◊")[0].Split('⧫');
                     if (message[0] == "0")
                     {
                         Invoke(new Action(() => listBox1.Items.Add(message[1])));
@@ -156,7 +163,7 @@ namespace Server_test
                             {
                                 cStream.Write(Encoding.UTF8.GetBytes($"0⧫{client.nickname} disconnected...◊"));
                                 cStream.Flush();
-                                Delay(10);
+                                Delay(100);
                                 cStream.Write(Encoding.UTF8.GetBytes($"5⧫{client.nickname}◊"));
                                 cStream.Flush();
                             }
@@ -186,8 +193,9 @@ namespace Server_test
                         client.nickname = message[1];
                         foreach(var c in clients)
                         {
-                            client.client.GetStream().Write(Encoding.UTF8.GetBytes("4⧫"+c.nickname + '◊'));
-                            Delay(10);
+                            client.client.GetStream().Write(Encoding.UTF8.GetBytes("4⧫" + c.nickname + '◊'));
+                            client.client.GetStream().Flush();
+                            Delay(100);
                         }
                         clients.Add(client);
                         foreach(var c in clients)
@@ -269,6 +277,7 @@ namespace Server_test
             }
             listBox1.Items.Add("Server:" + textBox2.Text);
             textBox2.Text = "";
+            listBox1.TopIndex = listBox1.Items.Count - 1;
         }
 
         static string GetLocalIPAddress()
@@ -297,12 +306,26 @@ namespace Server_test
         {
             if (e.KeyCode == Keys.Enter && isServerRun)
             {
-                foreach (var c in clients)
+                if (!textBox1.Text.Contains('⧫') && !textBox1.Text.Contains('◊'))
                 {
-                    c.client.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text + '◊'));
+                    if (textBox1.Text != "")
+                    {
+                        foreach (var c in clients)
+                        {
+                            c.client.GetStream().Write(Encoding.UTF8.GetBytes("0⧫" + "Server:" + textBox2.Text + '◊'));
+                        }
+                        listBox1.Items.Add("Server:" + textBox2.Text);
+                        textBox2.Text = "";
+                    }
+                    else
+                    {
+                        MessageBox.Show("문자는 공백이면 안됩니다.");
+                    }
                 }
-                listBox1.Items.Add("Server:" + textBox2.Text);
-                textBox2.Text = "";
+                else
+                {
+                    MessageBox.Show("채팅에 다음 문자는 포함되면 안됩니다: ⧫, ◊");
+                }
             }
         }
     }

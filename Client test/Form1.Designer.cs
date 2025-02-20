@@ -174,7 +174,7 @@
             Controls.Add(listBox1);
             KeyPreview = true;
             Name = "Form1";
-            Text = "Form1";
+            Text = "Chat Client";
             FormClosing += Form1_FormClosing;
             KeyDown += Form1_KeyDown;
             groupBox1.ResumeLayout(false);
