@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4I7O1ErNZV0=",
+  "dgSpecHash": "qyuKvlKUhiI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\endiy\\Source\\Repos\\voice-chat\\Client test\\Client test.csproj",
+  "projectFilePath": "C:\\Users\\endiy\\Source\\Repos\\chat-server\\Client test\\Client test.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
