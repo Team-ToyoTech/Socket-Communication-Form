@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\endiy\\source\\repos\\Server test\\Client test\\Client test.csproj": {}
+    "C:\\Users\\endiy\\Source\\Repos\\voice-chat\\Client test\\Client test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\endiy\\source\\repos\\Server test\\Client test\\Client test.csproj": {
+    "C:\\Users\\endiy\\Source\\Repos\\voice-chat\\Client test\\Client test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\endiy\\source\\repos\\Server test\\Client test\\Client test.csproj",
+        "projectUniqueName": "C:\\Users\\endiy\\Source\\Repos\\voice-chat\\Client test\\Client test.csproj",
         "projectName": "Client test",
-        "projectPath": "C:\\Users\\endiy\\source\\repos\\Server test\\Client test\\Client test.csproj",
+        "projectPath": "C:\\Users\\endiy\\Source\\Repos\\voice-chat\\Client test\\Client test.csproj",
         "packagesPath": "C:\\Users\\endiy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\endiy\\source\\repos\\Server test\\Client test\\obj\\",
+        "outputPath": "C:\\Users\\endiy\\Source\\Repos\\voice-chat\\Client test\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -69,7 +69,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
